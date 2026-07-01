@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_phone_call_wizard_form" model="ir.ui.view">
+        <field name="name">phone.call.wizard.form</field>
+        <field name="model">phone.call.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Choose Number">
+                <group>
+                    <field name="phone_number"/>
+                    <field name="phone_type"/>
+                </group>
+                <footer>
+                    <button name="action_call" type="object" string="Call" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+        </record>
+    </data>
+</odoo>

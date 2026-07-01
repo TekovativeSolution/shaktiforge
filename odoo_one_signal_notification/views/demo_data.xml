@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="demo_onesignal_config_1" model="onesignal.config">
+            <field name="rest_api_key">AAAAAdKQTc4:APA91bGW4uxIKt8WdDceSVVOPJscW_To_8a6duQWQ4sMGhOBBx3leQz4JpXB4Itw1xCSDPwApy7k-GRprI2cgEYhON74kEIrrn_t1rAkrUSvWEYXMXVEklZISZJi-79FNcIs_Hxua_dw</field>
+        </record>
+    </data>
+
+</odoo>

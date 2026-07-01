@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="hide_button" inherit_id="web.login_layout" name="Hide login ">
+        <xpath expr="//div[@class='card-body']//div[last()]" position="replace">
+            <!--remove manage database-->
+        </xpath>
+    </template>
+
+    <template id="customize_login_page" inherit_id="auth_signup.login">
+        <!-- Remove "Don't have an account?" -->
+        <xpath expr="//div[@class='justify-content-between mt-2 d-flex small']" position="replace">
+            <!-- Removed Signup link -->
+        </xpath>
+    </template>
+</odoo>

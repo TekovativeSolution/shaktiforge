@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_activity_reminder_user,activity.reminder,model_activity_reminder,base.group_user,1,1,1,1
+mail.access_mail_activity_user,mail.activity.user,mail.model_mail_activity,base.group_user,1,1,1,0
+access_mail_activity_manager,mail.activity.user,mail.model_mail_activity,base.group_erp_manager,1,1,1,1

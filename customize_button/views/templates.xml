@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <template id="assets_backend" inherit_id="web.assets_backend" name="Inherit mail.Activity Template">
+        <xpath expr="." position="inside">
+            <template id="inherit_mail_activity_cancel_button" inherit_id="mail.Activity">
+                <xpath expr="//span[contains(@class, 'btn-danger')]" position="attributes">
+                    <attribute name="t-if">env.user.has_group('base.group_system')</attribute>
+                </xpath>
+            </template>
+        </xpath>
+    </template>

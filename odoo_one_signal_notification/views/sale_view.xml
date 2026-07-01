@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_onesignal_config_tree" model="ir.ui.view">
+		<field name="name">onesignal.config.tree</field>
+		<field name="model">onesignal.config</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="rest_api_key" />
+				<field name="app_id" invisible="1"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_onesignal_config_form" model="ir.ui.view">
+		<field name="name">onesignal.config.form</field>
+		<field name="model">onesignal.config</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="send_notification_using_firebase" type="object" string="Send Notification" />
+				</header>
+				<sheet>
+					<group>
+						<field name="rest_api_key" required="1" />
+						<field name="app_id" required="0" invisible="1"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_onesignal_config" model="ir.actions.act_window">
+		<field name="name">One Signal Configuration</field>
+		<field name="res_model">onesignal.config</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem id="menuitem_onesignal_config" action="action_onesignal_config"
+		parent="base.menu_custom" />
+
+	<record id="inherit_base_view_users_form" model="ir.ui.view">
+		<field name="name">res.users.form</field>
+		<field name="model">res.users</field>
+		<field name="inherit_id" ref="base.view_users_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//group//field[@name='partner_id']" position="after">
+				<field name="player_id" invisible="1" />
+			</xpath>
+			<xpath expr="//form//sheet" position="inside">
+				<field name="player_lines">
+					<tree editable="bottom">
+						<field name="player_id" />
+						<field name="user_id" invisible="1" />
+					</tree>
+				</field>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

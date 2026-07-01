@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+    .text-truncate{
+        display:none;
+      }
+    .oi-arrow-left{
+        font-weight: 600;
+        color: white;
+        font-size: large;
+        background-color: #02494f;
+        height: 30px;
+        width: 40px;
+        padding-top: 5px;
+        border-radius: 7px;
+    }
+    .reload_view{
+        display:none;
+    }
+    .o_popover.o-popover-right, .o_popover.o-popover-auto[x-placement^="right"]
+    {
+        margin-left: -9.5rem;
+    }
+
+}

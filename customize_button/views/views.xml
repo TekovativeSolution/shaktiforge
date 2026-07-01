@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Inherit the existing form view of crm.lead -->
+    <record id="crm_lead_view_form_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="after">
+                <div class="all_btn">
+                    <button name="action_phone_call" type="object" icon="fa-phone" class="mobile_btn btn btn-outline-primary ml4"/>
+<!--                <button name="action_send_email" type="object" icon="fa-envelope" class="btn btn-outline-primary ml4"/>-->
+                    <button name="action_send_whatsapp" type="object" icon="fa-whatsapp" class="mobile_btn btn btn-outline-primary ml4"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="extra_fields_inherit_crm_lead_view_form" model="ir.ui.view">
+            <field name="name">crm.lead.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='opportunity_partner']//field[@name='phone']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="before">
+                    <button name="action_create_partner" string="Create Partner" type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//group/group[2]/field[@name='partner_id']" position="after">
+                    <field name="contact_person_id"/>
+                </xpath>
+                <xpath expr="//group[@name='opportunity_partner']/label[@for='phone']" position="before">
+                    <field name="mobile" widget="phone"/>
+                </xpath>
+                <field name="email_cc" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//page[@name='lead']/group/group/div/field[@name='mobile']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--				<xpath expr="//group/group[2]/field[@name='phone']" position="attributes">-->
+                <!--                	<attribute name="invisible">1</attribute>-->
+                <!--				</xpath>-->
+                <!--				<xpath expr="//group/group[3]/field[@name='phone']" position="attributes">-->
+                <!--                	<attribute name="invisible">1</attribute>-->
+                <!--				</xpath>-->
+                <!--				<field name="tag_ids" position="after">-->
+                <!--					<field name="cust_type_id" />-->
+                <!--				</field>-->
+                <xpath expr="//group[@name='opportunity_partner']/field[@name='lost_reason_id']" position="before">
+                    <field name="cust_type_id"/>
+                </xpath>
+                <xpath expr="//page[@name='lead']/group/group/field[@name='function']" position="after">
+                    <field name="product_info_id" invisible="1"/>
+                    <field name="l10n_in_gst_treatment"/>
+                    <field name="vat"/>
+                    <!--					<field name="property_account_position_id"/>-->
+                </xpath>
+                <xpath expr="//page[@name='lead']" position="attributes">
+                    <attribute name="string">Extra Information</attribute>
+                </xpath>
+                <field name="user_id" position="after">
+                    <field name="team_id" position="move"/>
+                </field>
+                <xpath expr="//group[@name='Misc']/field[@name='team_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='lead']//field[@name='function']" position="before">
+                    <xpath expr="//field[@name='phone']" position="move"/>
+                </xpath>
+                <!--                <xpath expr="//group[@name='opportunity_partner']/div/field[@name='phone']" position="attributes">-->
+                <!--                <xpath expr="//sheet/div/group/group[@name='opportunity_partner']/div[2]/field[@name='phone']" position="attributes">-->
+                <!--                    <attribute name="invisible">1</attribute>-->
+                <!--                </xpath>-->
+            </field>
+        </record>
+
+        <record id="crm.quick_create_opportunity_form" model="ir.ui.view">
+            <field name="name">crm.lead.form.quick_create</field>
+            <field name="model">crm.lead</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name" string="Lead Name"/>
+                        <field name="mobile"/>
+                        <field name="email_from" string="Email" invisible="1"/>
+                        <label for="tag_ids"/>
+                        <div>
+                            <div class="o_row">
+                                <field name="tag_ids" class="oe_inline me-3 o_field_highlight" widget="many2many_tags"/>
+                                <field name="priority" class="oe_inline" nolabel="1" widget="priority"/>
+                            </div>
+                            <div class="o_row" groups="crm.group_use_recurring_revenues">
+                                <field name="recurring_revenue" class="oe_inline o_field_highlight" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                <field name="recurring_plan" class="oe_inline" placeholder='e.g. "Monthly"'
+                                    required="recurring_revenue != 0" options="{'no_create': True, 'no_open': True}"/>
+                            </div>
+                        </div>
+                        <field name="description" string="Notes"/>
+                        <field name="partner_id" widget="res_partner_many2one"
+                            class="o_field_highlight"
+                            string='Select If Existing Customer'
+                            context="{
+                            'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
+                            'default_name': contact_name or partner_name,
+                            'default_is_company': type == 'opportunity' and contact_name == False,
+                            'default_company_name': type == 'opportunity' and partner_name,
+                            'default_type': 'contact',
+                            'default_mobile': mobile,
+                            'default_email': email_from,
+                            'default_user_id': user_id,
+                            'default_team_id': team_id,
+                            'show_vat': True}"/>
+
+                        <div>
+                            <div class="o_row">
+                                <field name="expected_revenue" class="oe_inline me-5 o_field_highlight" widget="monetary" options="{'currency_field': 'company_currency'}" invisible="1"/>
+                                <field name="priority" class="oe_inline" nolabel="1" widget="priority" invisible="1"/>
+                            </div>
+                            <div class="o_row" groups="crm.group_use_recurring_revenues">
+                                <field name="recurring_revenue" class="oe_inline o_field_highlight" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                <field name="recurring_plan" class="oe_inline" placeholder='e.g. "Monthly"'
+                                    required="recurring_revenue != 0" options="{'no_create': True, 'no_open': True}"/>
+                            </div>
+                        </div>
+                        <field name="company_currency" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="user_id" invisible="1"/>
+                        <field name="user_company_ids" invisible="1"/>
+                        <field name="team_id" invisible="1"/>
+                        <field name="type" invisible="1"/>
+                        <field name="partner_name" invisible="1"/>
+                        <field name="contact_name" invisible="1"/>
+                        <field name="country_id" invisible="1"/>
+                        <field name="state_id" invisible="1"/>
+                        <field name="city" invisible="1"/>
+                        <field name="street" invisible="1"/>
+                        <field name="street2" invisible="1"/>
+                        <field name="zip" invisible="1"/>
+<!--                        <field name="mobile" invisible="1"/>-->
+                        <field name="website" invisible="1"/>
+                        <field name="function" invisible="1"/>
+                        <field name="title" invisible="1"/>
+                        <field name="activity_ids" invisible="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="crm_lead_view_extra_fields_pipeline_tree" model="ir.ui.view">
+            <field name="name">crm.lead.tree.opportunity</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="cust_type_id" optional="show"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="inherit_crm_lead_extra_fields_search_view" model="ir.ui.view">
+            <field name="name">crm.lead.search</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='city']" position="after">
+                    <field name="cust_type_id" string="Type of Customer"/>
+                </xpath>
+                <xpath expr="//group/filter[@name='source']" position="after">
+                    <filter string="Type of Customer" name="cust_type_id" domain="[]"
+                            context="{'group_by':'cust_type_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- =============================== Customer Type  ================================== -->
+        <record id="customer_type_tree_view" model="ir.ui.view">
+            <field name="name">customer.type.tree.view</field>
+            <field name="model">customer.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="customer_type_inherit" model="ir.ui.view">
+            <field name="name">customer.type.form.view</field>
+            <field name="model">customer.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group></group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="customer_type_action_id" model="ir.actions.act_window">
+            <field name="name">Customer Type</field>
+            <field name="res_model">customer.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="customer_type_name_menu" action="customer_type_action_id"
+                  name="Customer Type" sequence="116"
+                  parent='crm.crm_menu_config'
+                  groups="sales_team.group_sale_manager"/>
+
+        <!-- ===============================product.information  ================================== -->
+        <record id="product_information_tree_view" model="ir.ui.view">
+            <field name="name">product.information.tree.view</field>
+            <field name="model">product.information</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_information_inherit" model="ir.ui.view">
+            <field name="name">product.information.form.view</field>
+            <field name="model">product.information</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group></group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--            <record id="product_information_action_id" model="ir.actions.act_window">-->
+        <!--                <field name="name">Product Information</field>-->
+        <!--                <field name="res_model">product.information</field>-->
+        <!--                <field name="view_mode">tree,form</field>-->
+        <!--            </record>-->
+
+        <!--       	<menuitem id="product_information_name_menu" action="product_information_action_id"-->
+        <!--				  name="Product Information" sequence="117"-->
+        <!--				  parent='crm.crm_menu_config'-->
+        <!--				  groups="sales_team.group_sale_manager"/>-->
+
+    </data>
+</odoo>

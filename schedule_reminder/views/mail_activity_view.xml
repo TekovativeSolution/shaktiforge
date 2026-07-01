@@ -1,0 +1,22 @@
+<odoo>
+  <data>
+      <record id="inherited_schedule_mail_activity_form_view" model="ir.ui.view">
+			<field name="name">Mail Activity</field>
+			<field name="model">mail.activity</field>
+			<field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_deadline']" position="replace">
+					<field name="date_due"/>
+				</xpath>
+				<xpath expr="//field[@name='date_due']" position="after">
+					<label for="interval_number"/>
+					<div class="o_row">
+						<field name="interval_type" class="oe_inline"/>
+						<field name="interval_number" class="oe_inline"/>
+					</div>
+				</xpath>
+			</field>
+      </record>
+  </data>
+
+</odoo>

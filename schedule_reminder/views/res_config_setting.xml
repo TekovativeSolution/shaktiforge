@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="activity_reminder_inherit_view_id" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.crm</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="priority" eval="4"/>
+            <field name="arch" type="xml">
+                <xpath expr="//app[@name='general_settings']/block[@name='performance']" position="after">
+                    <block name="activity_reminder_before">
+                        <setting id="reminder_before" string="Activity Remainder Before" >
+                            <field name="reminder_before"/>
+                        </setting>
+                    </block>
+               </xpath>
+            </field>
+        </record>
+</odoo>
+
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<odoo>-->
+<!--	<data>-->
+<!--		<record id="activity_reminder_inherit_view_id" model="ir.ui.view">-->
+<!--			<field name="name">res.config.settings</field>-->
+<!--			<field name="model">res.config.settings</field>-->
+<!--			<field name="inherit_id" ref="crm.res_config_settings_view_form" />-->
+<!--			<field name="arch" type="xml">-->
+<!--				<xpath expr="//app/block[@name='generate_lead_setting_container']" position="after">-->
+<!--					<block name="activity_reminder_inherit_view_id">-->
+<!--                        <setting id="reminder_before" string="Activity Reminder Notification">-->
+<!--                            <field name="reminder_before"/>-->
+<!--                        </setting>-->
+<!--                    </block>-->
+<!--&lt;!&ndash;					<block title="Activity Reminder Notification" name="activity_due_notification_setting_container">&ndash;&gt;-->
+<!--&lt;!&ndash;						<setting id="reminder_before">&ndash;&gt;-->
+<!--&lt;!&ndash;							<field name="reminder_before" />&ndash;&gt;-->
+<!--&lt;!&ndash;						</setting>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						<setting> <button name="%(sh_activity_reminder.sh_activity_alarm_action)d" icon="fa-arrow-right" type="action" string="Configure Activity Alarm" class="btn-link"/></setting>						&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;					</block>&ndash;&gt;-->
+<!--				</xpath>-->
+<!--			</field>-->
+<!--		</record>-->
+<!--	</data>-->
+<!--</odoo>-->

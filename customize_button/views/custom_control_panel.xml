@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<!--    <template id="custom_control_id" inherit_id="web.Breadcrumbs">-->
+<!--        <xpath expr="//button[@class='o_back_button btn btn-link px-1']" position="attributes">-->
+<!--            <attribute name="class">o_back_button btn btn-primary px-1</attribute>-->
+<!--        </xpath>-->
+<!--    </template>-->
+    <t t-name="custom_control_panel" t-inherit="web.Breadcrumbs" t-inherit-mode="primary">
+        <xpath expr="//button[@class='o_back_button btn btn-link px-1']" position="attributes">
+            <attribute name="class">o_back_button btn btn-primary px-1</attribute>
+        </xpath>
+    </t>
+</templates>

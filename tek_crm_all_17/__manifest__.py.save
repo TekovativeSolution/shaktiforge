@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "CRM All",
+    'version': '13.0',
+    'author': "PArthvi Patel",
+    'website': 'http://www.teknovatesolutions.com/',
+    'category': 'crm',
+    'summary': """REAL ESTATE CRM All""",
+    'description': """REAL ESTATE CRM All""",
+    'depends': ['property_meeting_mngmt','property_management','custom_wisteria','99acres_integration','contact_report', 'res_users_default_configuration' ,'users_access_rights_tek','max_user_limit_with_indian_lang','odoo_android_crm','base','crm','backend_theme_v13','teknovate_debrand','assign_lead_salesperson','crm_reminder','lead_auto_assign','activity_in_crm','remove_export_option','odoo_one_signal_notification_crm','multi_contact_tag','multi_lead_tag','crm_extra_fields','web_notify','contact_reminder','schedule_reminder','whatsapp_redirect','add_lead_treeview_field','search_phone_email_crm','crm_report'],
+    'data': [],
+    'images': [],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}

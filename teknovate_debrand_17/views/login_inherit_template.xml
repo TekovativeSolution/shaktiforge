@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <template id="login_layout_inherit" inherit_id="web.login_layout">
+            <xpath expr="//div[@t-if='not disable_footer']" position="replace">
+                <div class="text-center small mt-4 pt-3 border-top" t-if="not disable_footer">
+                    <t t-if="not disable_database_manager">
+                        <a class="border-end pe-2 me-1" href="/web/database/manager">Manage Databases</a>
+                    </t>
+                    <a href="https://teknovativesolution.com" target="_blank">Powered by
+                        <span>Teknovative</span>
+                    </a>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

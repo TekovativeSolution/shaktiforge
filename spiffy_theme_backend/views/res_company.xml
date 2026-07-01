@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- # Part of Odoo Module Developed by Bizople Solutions Pvt. Ltd.
+# See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <record model="ir.ui.view" id="spiffy_configuration_res_company_view">
+        <field name="name">res.company.form.view.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="spiffy_favicon"/>
+                <field name="login_page_background_img"/>
+            </xpath>
+            <xpath expr="//field[@name='color']" position="after">
+                <field name="backend_menubar_logo_icon"/>
+                <field name="backend_menubar_logo"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

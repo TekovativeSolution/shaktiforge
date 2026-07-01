@@ -1,0 +1,95 @@
+.mobile_btn{
+    display:none;
+}
+body.o_web_client .o_form_view .o-mail-Form-chatter .o-mail-Chatter-top {
+    background-color: var(--biz-theme-secondary-color) !important;
+    padding-top: 8px;
+    z-index: 1;
+}
+.o_field_phone_sms
+  {
+    display:none !important;;
+  }
+body.o_web_client ::-webkit-scrollbar {
+    height: 10px;
+    width: 5px;
+    border-radius: 7px;
+}
+@media (max-width: 768px) {
+    .oe-toolbar.oe-floating {
+        display:none !important;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        overflow-y: visible;
+    }
+    .mobile_btn{
+        display:inline-block;
+    }
+    .min-w-0 {
+        min-width: 0 !important;
+        display: none;
+    }
+
+    .oi-arrow-left{
+        font-weight: 600;
+        color: white;
+        font-size: large;
+        background-color: #02494f;
+        height: 30px;
+        width: 40px;
+        padding-top: 5px;
+        border-radius: 7px;
+    }
+    .reload_view{
+        display:none;
+    }
+    .o_popover.o-popover-right, .o_popover.o-popover-auto[x-placement^="right"]
+    {
+        margin-left: -9.5rem;
+        margin-top: -20rem;
+    }
+    .o_popover.o-popover-bottom, .o_popover.o-popover-auto[x-placement^="bottom"]
+    {
+        margin-top: -3.5rem;
+        margin-left: -5.5rem;
+    }
+    .o-mail-ActivityListPopover
+    {
+        width: min(80vw, 350px);
+    }
+    .o_wrap_field
+    {
+        margin-top: -20px;
+    }
+    #ks_dashboard_title_label {
+        font-size: 25px;
+        display: none;
+    }
+    .welcome_note h3, .welcome_note .h3 {
+        display:none
+    }
+    .ks_dashboard_top_settings{
+        display:none
+    }
+    .modal.o_technical_modal.o_modal_full{
+        border: none;
+    }
+    body.o_web_client .btn.btn-link:not(.alert){
+        font-size: 17px;
+    }
+    body.o_web_client .o_form_view .o_form_sheet_bg .o_form_statusbar .o_statusbar_status > .btn-secondary, body.o_web_client .o_form_view .o_form_sheet_bg .o_form_statusbar .o_statusbar_status > .o_arrow_button
+    {
+        width: 100px;
+        border: 1px solid var(--biz-theme-primary-color) !important;
+        border-radius: 0 !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .o_field_phone_sms
+    {
+        display:none !important;
+    }
+    .oe-toolbar .oe-floating {
+        display: none;
+    }
+}
