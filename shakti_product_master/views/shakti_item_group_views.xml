@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_item_group_tree" model="ir.ui.view">
+        <field name="name">shakti.item.group.tree</field>
+        <field name="model">shakti.item.group</field>
+        <field name="arch" type="xml">
+            <tree string="Item Group" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_item_group_form" model="ir.ui.view">
+        <field name="name">shakti.item.group.form</field>
+        <field name="model">shakti.item.group</field>
+        <field name="arch" type="xml">
+            <form string="Item Group">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_item_group" model="ir.actions.act_window">
+        <field name="name">Item Group</field>
+        <field name="res_model">shakti.item.group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_item_group"
+        name="Item Group"
+        parent="sale.menu_sale_config"
+        action="action_shakti_item_group"
+        sequence="65"/>
+</odoo>

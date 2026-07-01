@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_product_template_form_shakti" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.shakti</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook/page[@name='general_information']/group" positin="after">
+                <group>
+                    <field name="x_category_id"/>
+                    <field name="x_process_code_id"/>
+                    <field name="x_size1_id"/>
+                    <field name="x_size2_id"/>
+                    <field name="x_item_group_id"/>
+                    <field name="x_end_connection_id"/>
+                    <field name="x_pressure_rating_id"/>
+                </group>
+                <group>
+                    <field name="x_sch_id"/>
+                    <field name="x_material_grade_id"/>
+                    <field name="x_die_code_id"/>
+                    <field name="x_customer_code_id"/>
+                    <field name="x_additional_process_id"/>
+                    <field name="x_fitting_standard_id"/>
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

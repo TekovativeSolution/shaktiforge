@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_pressure_rating_tree" model="ir.ui.view">
+        <field name="name">shakti.pressure.rating.tree</field>
+        <field name="model">shakti.pressure.rating</field>
+        <field name="arch" type="xml">
+            <tree string="Pressure Rating" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_pressure_rating_form" model="ir.ui.view">
+        <field name="name">shakti.pressure.rating.form</field>
+        <field name="model">shakti.pressure.rating</field>
+        <field name="arch" type="xml">
+            <form string="Pressure Rating">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_pressure_rating" model="ir.actions.act_window">
+        <field name="name">Pressure Rating</field>
+        <field name="res_model">shakti.pressure.rating</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_pressure_rating"
+        name="Pressure Rating"
+        parent="sale.menu_sale_config"
+        action="action_shakti_pressure_rating"
+        sequence="67"/>
+</odoo>

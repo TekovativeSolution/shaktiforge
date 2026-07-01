@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_material_grade_tree" model="ir.ui.view">
+        <field name="name">shakti.material.grade.tree</field>
+        <field name="model">shakti.material.grade</field>
+        <field name="arch" type="xml">
+            <tree string="Material Grade" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_material_grade_form" model="ir.ui.view">
+        <field name="name">shakti.material.grade.form</field>
+        <field name="model">shakti.material.grade</field>
+        <field name="arch" type="xml">
+            <form string="Material Grade">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_material_grade" model="ir.actions.act_window">
+        <field name="name">Material Grade</field>
+        <field name="res_model">shakti.material.grade</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_material_grade"
+        name="Material Grade"
+        parent="sale.menu_sale_config"
+        action="action_shakti_material_grade"
+        sequence="69"/>
+</odoo>

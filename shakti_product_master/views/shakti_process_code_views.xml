@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_process_code_tree" model="ir.ui.view">
+        <field name="name">shakti.process.code.tree</field>
+        <field name="model">shakti.process.code</field>
+        <field name="arch" type="xml">
+            <tree string="Process Code" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_process_code_form" model="ir.ui.view">
+        <field name="name">shakti.process.code.form</field>
+        <field name="model">shakti.process.code</field>
+        <field name="arch" type="xml">
+            <form string="Process Code">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_process_code" model="ir.actions.act_window">
+        <field name="name">Process Code</field>
+        <field name="res_model">shakti.process.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_process_code"
+        name="Process Code"
+        parent="sale.menu_sale_config"
+        action="action_shakti_process_code"
+        sequence="62"/>
+</odoo>

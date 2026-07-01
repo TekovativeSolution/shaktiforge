@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_fitting_standard_tree" model="ir.ui.view">
+        <field name="name">shakti.fitting.standard.tree</field>
+        <field name="model">shakti.fitting.standard</field>
+        <field name="arch" type="xml">
+            <tree string="Fitting Standard" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_fitting_standard_form" model="ir.ui.view">
+        <field name="name">shakti.fitting.standard.form</field>
+        <field name="model">shakti.fitting.standard</field>
+        <field name="arch" type="xml">
+            <form string="Fitting Standard">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_fitting_standard" model="ir.actions.act_window">
+        <field name="name">Fitting Standard</field>
+        <field name="res_model">shakti.fitting.standard</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_fitting_standard"
+        name="Fitting Standard"
+        parent="sale.menu_sale_config"
+        action="action_shakti_fitting_standard"
+        sequence="73"/>
+</odoo>

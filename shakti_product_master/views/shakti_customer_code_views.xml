@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_customer_code_tree" model="ir.ui.view">
+        <field name="name">shakti.customer.code.tree</field>
+        <field name="model">shakti.customer.code</field>
+        <field name="arch" type="xml">
+            <tree string="Customer Specific Code" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_customer_code_form" model="ir.ui.view">
+        <field name="name">shakti.customer.code.form</field>
+        <field name="model">shakti.customer.code</field>
+        <field name="arch" type="xml">
+            <form string="Customer Specific Code">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_customer_code" model="ir.actions.act_window">
+        <field name="name">Customer Specific Code</field>
+        <field name="res_model">shakti.customer.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_customer_code"
+        name="Customer Specific Code"
+        parent="sale.menu_sale_config"
+        action="action_shakti_customer_code"
+        sequence="71"/>
+</odoo>

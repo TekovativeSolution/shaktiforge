@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shakti_die_code_tree" model="ir.ui.view">
+        <field name="name">shakti.die.code.tree</field>
+        <field name="model">shakti.die.code</field>
+        <field name="arch" type="xml">
+            <tree string="Die Code" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shakti_die_code_form" model="ir.ui.view">
+        <field name="name">shakti.die.code.form</field>
+        <field name="model">shakti.die.code</field>
+        <field name="arch" type="xml">
+            <form string="Die Code">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shakti_die_code" model="ir.actions.act_window">
+        <field name="name">Die Code</field>
+        <field name="res_model">shakti.die.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_shakti_die_code"
+        name="Die Code"
+        parent="sale.menu_sale_config"
+        action="action_shakti_die_code"
+        sequence="70"/>
+</odoo>
