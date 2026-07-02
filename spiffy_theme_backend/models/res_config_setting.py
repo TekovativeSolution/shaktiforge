@@ -21,7 +21,7 @@ class ResConfig(models.TransientModel):
         related='company_id.login_page_style', string="Login Styles", required=True, readonly=False)
 
     def _get_default_image_background(self):
-        image_path = "/spiffy_theme_backend/static/src/company_images/login_background.jpg"
+        image_path = "spiffy_theme_backend/static/src/company_images/login_background.jpg"
         with open(image_path, "rb") as f:
             return base64.b64encode(f.read())
 
