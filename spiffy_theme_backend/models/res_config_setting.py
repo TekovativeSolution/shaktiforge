@@ -21,7 +21,7 @@ class ResConfig(models.TransientModel):
         related='company_id.login_page_style', string="Login Styles", required=True, readonly=False)
 
     def _get_default_image_background(self):
-        image_path = "spiffy_theme_backend/static/src/company_images/login_background.jpg"
+        image_path = "/home/shakti/workspace/shaktiforge/spiffy_theme_backend/static/src/company_images/login_background.jpg"
         with open(image_path, "rb") as f:
             return base64.b64encode(f.read())
 
@@ -37,14 +37,14 @@ class ResConfig(models.TransientModel):
     show_bg_image = fields.Boolean(
         related='company_id.show_bg_image', string='Add Login Background Image', readonly=False, default=True)
     def _get_default_image(self):
-        image_path = "spiffy_theme_backend/static/src/company_images/Shield.png"
+        image_path = "/home/shakti/workspace/shaktiforge/spiffy_theme_backend/static/src/company_images/Shield.png"
         with open(image_path, "rb") as f:
             return base64.b64encode(f.read())
     spiffy_favicon = fields.Binary(
         related='company_id.spiffy_favicon', string="Backend Tab Favicon", readonly=False,attachment=True,default=_get_default_image)
 
     def _get_default_menu_logo(self):
-        image_path = "spiffy_theme_backend/static/src/company_images/menubar_logo.png"
+        image_path = "/home/shakti/workspace/shaktiforge/spiffy_theme_backend/static/src/company_images/menubar_logo.png"
         with open(image_path, "rb") as f:
             return base64.b64encode(f.read())
     backend_menubar_logo = fields.Binary(
