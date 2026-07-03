@@ -5,7 +5,7 @@
     'summary': 'Product master fields with auto name/code generation via category sequence',
     'author': 'Hetvi Jesadiya',
     'website': 'http://www.teknovativesolution.com/',
-    'depends': ['base','product'],
+    'depends': ['base','product','sale','sale_management'],
     'data': [
         'security/ir.model.access.csv',
         
