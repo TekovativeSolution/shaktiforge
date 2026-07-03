@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+	    <record id="view_purchase_ord_form_inherit" model="ir.ui.view">
+	        <field name="name">view.purchase.order.form.inherit</field>
+	        <field name="model">purchase.order</field>
+	        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+	        <field name="arch" type="xml">
+				<xpath expr="//button[@name='print_quotation']" position="after">
+					 <button name="generate_public_url" type="object"  string="Print" class="oe_highlight"/>
+				</xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+					 <field name="pdf_public_url" invisible="1"/>
+				</xpath>
+			</field>
+	    </record>
+    </data>
+</odoo>

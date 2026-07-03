@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="solar_quotation_tek_sale_ord_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_quotation_send']" position="after">
+                    <button name="generate_public_url" type="object" string="Print" class="oe_highlight"/>
+                </xpath>
+                <field name="payment_term_id" position="after">
+                    <field name="pdf_public_url" invisible="1"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
