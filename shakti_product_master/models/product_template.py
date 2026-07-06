@@ -49,6 +49,7 @@ class ProductTemplate(models.Model):
     x_fitting_standard_id = fields.Many2one(
         'shakti.fitting.standard', string='13. Fitting Standard')
 
+    
 
     def _compute_name_and_code(self):
         for rec in self:
@@ -66,7 +67,7 @@ class ProductTemplate(models.Model):
                     continue
                 master_record = getattr(rec, field_name, False)
                 if master_record:
-                    if master_record.name:
+                    if master_record.name and field_name != 'x_category_id':
                         name_parts.append(master_record.name)
                     if master_record.code:
                         code_parts.append(master_record.code)
@@ -96,9 +97,6 @@ class ProductTemplate(models.Model):
         return result
 
 
-
-
-
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
@@ -117,7 +115,7 @@ class ProductProduct(models.Model):
                     continue
                 master_record = getattr(rec, field_name, False)
                 if master_record:
-                    if master_record.name:
+                    if master_record.name and field_name != 'x_category_id':
                         name_parts.append(master_record.name)
                     if master_record.code:
                         code_parts.append(master_record.code)
