@@ -49,7 +49,49 @@ class ProductTemplate(models.Model):
     x_fitting_standard_id = fields.Many2one(
         'shakti.fitting.standard', string='13. Fitting Standard')
 
-    
+    @api.onchange(
+        'x_category_id',
+        'x_process_code_id',
+        'x_size1_id',
+        'x_size2_id',
+        'x_item_group_id',
+        'x_end_connection_id',
+        'x_pressure_rating_id',
+        'x_sch_id',
+        'x_material_grade_id',
+        'x_die_code_id',
+        'x_customer_code_id',
+        'x_additional_process_id',
+        'x_fitting_standard_id',
+    )
+    def _onchange_generate_name_code(self):
+        for rec in self:
+            if not rec.x_category_id:
+                continue
+
+            sr_list = rec.x_category_id.get_ordered_sr_list()
+            if not sr_list:
+                continue
+
+            name_parts = []
+            code_parts = []
+
+            for sr in sr_list:
+                field_name = SR_FIELD_MAP.get(sr)
+                if not field_name:
+                    continue
+
+                master = getattr(rec, field_name)
+                if master:
+                    if field_name != 'x_category_id' and master.name:
+                        name_parts.append(master.name)
+                    if master.code:
+                        code_parts.append(master.code)
+
+            rec.name = " ".join(name_parts)
+            rec.default_code = "".join(code_parts)
+
+
 
     def _compute_name_and_code(self):
         for rec in self:
@@ -79,6 +121,8 @@ class ProductTemplate(models.Model):
                 update_vals['default_code'] = ''.join(code_parts)
             if update_vals:
                 super(ProductTemplate, rec).write(update_vals)
+
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -142,3 +186,49 @@ class ProductProduct(models.Model):
                 if rec.x_category_id and rec.x_category_id.field_sequence:
                     rec._compute_name_and_code()
         return result
+
+    @api.onchange(
+        'x_category_id',
+        'x_process_code_id',
+        'x_size1_id',
+        'x_size2_id',
+        'x_item_group_id',
+        'x_end_connection_id',
+        'x_pressure_rating_id',
+        'x_sch_id',
+        'x_material_grade_id',
+        'x_die_code_id',
+        'x_customer_code_id',
+        'x_additional_process_id',
+        'x_fitting_standard_id',
+    )
+    def _onchange_generate_name_code(self):
+        for rec in self:
+            if not rec.x_category_id:
+                continue
+
+            sr_list = rec.x_category_id.get_ordered_sr_list()
+            if not sr_list:
+                continue
+
+            name_parts = []
+            code_parts = []
+
+            for sr in sr_list:
+                field_name = SR_FIELD_MAP.get(sr)
+                if not field_name:
+                    continue
+
+                master = getattr(rec, field_name, False)
+                if master:
+                    if field_name != 'x_category_id' and master.name:
+                        name_parts.append(master.name)
+                    if master.code:
+                        code_parts.append(master.code)
+
+            # Update variant internal reference
+            rec.default_code = ''.join(code_parts)
+
+            # Update template name
+            if rec.product_tmpl_id:
+                rec.product_tmpl_id.name = ' '.join(name_parts)
