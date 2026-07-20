@@ -19,6 +19,7 @@
         'views/shakti_item_group_views.xml',
         'views/shakti_material_grade_views.xml',
         'views/shakti_process_code_views.xml',
+        'views/shakti_pressure_rating_views.xml',
         'views/shakti_sch_views.xml',
         'views/shakti_size1_views.xml',
         'views/shakti_size2_views.xml',
