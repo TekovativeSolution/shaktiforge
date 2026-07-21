@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="group_sale_revision" model="res.groups">
+        <field name="name">Review and Approve Sale Order</field>
+    </record>
+</odoo>

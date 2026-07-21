@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="mrp_production_view_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="domain" invisible="1"/>
+                <field name="show_customer_info" invisible="1"/>
+                <field name="sale_order_id" domain="domain"/>
+                <field name="customer_id" invisible="not show_customer_info"/>
+                <field name="sale_description"/>
+                <field name="attachment" widget="binary_preview" invisible="not show_customer_info" filename="attachment_name"
+                       class="o_attachment_preview"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

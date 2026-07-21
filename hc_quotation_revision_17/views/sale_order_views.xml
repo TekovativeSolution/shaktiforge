@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--<record id="sale_order_tree_order_custom_review" model="ir.ui.view">
+        <field name="name">sale_order_tree_order_custom_review</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="confirm_seq"/>
+            </xpath>
+        </field>
+    </record>-->
+
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="name">Sales Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="context">{}</field>
+        <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel'))]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new quotation, the first step of a new sale!
+            </p>
+            <p>
+                Once the quotation is confirmed, it becomes a sales order.
+                <br/>
+                You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+
+    <record id="sale_order_form_custom_review" model="ir.ui.view">
+        <field name="name">sale_order_form_custom_review</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
+            </xpath>
+            <!--            <xpath expr="//button[5]" position="replace">-->
+            <!--                <button name="action_quotation_send" string="Send by Email" type="object" -->
+            <!--                        class="btn-primary"/>-->
+
+            <!--            </xpath>-->
+<!--            <xpath expr="//button[@id='action_confirm']" position="replace">-->
+<!--            </xpath>-->
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+                <button name="action_confirm" id="action_confirm" data-hotkey="v" string="Confirm" class="btn-primary"
+                        type="object" context="{'validate_analytic': True}" invisible="state in ('sale','cancel')"/>
+
+            </xpath>
+
+
+            <!--            <xpath expr="//button[@name='action_cancel']" position="replace">-->
+            <!--                <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>-->
+
+            <!--            </xpath>-->
+            <!--            <xpath expr="//button[@name='action_draft']" position="replace">-->
+            <!--                <button name="action_draft" type="object" string="Set to Quotation"-->
+            <!--                        attrs="{'invisible': ['|',('state', '!=', 'cancel'),('is_revised','=', True)]}"/>-->
+
+            <!--            </xpath>-->
+
+
+            <xpath expr="//header" position="inside">
+                <field name="is_revised" invisible="1"/>
+<!--                <button name="action_sent_review" string="Send to Review" type="object" invisible="state == 'draft'" class="btn-primary"/>-->
+
+<!--                <button name="action_order_approve" string="Approve" type="object" class="btn-primary"/>-->
+<!--                <button name="action_order_reject" string="Reject" type="object" class="btn-primary"/>-->
+
+                <button name="revise_quotation" string="Revise" type="object" class="btn-primary"
+                        invisible="state in ['sale', 'cancel']"/>
+                <!--                <button name="action_cancel" type="object" string="Cancel"/>-->
+                <button name="action_quotation_sent_new" string="Mark Quotation as Sent" type="object" class="btn-primary"/>
+                <!--                <field name="is_pi_done" invisible="1"/>-->
+                <!--                <button name="generate_proforma_invoice" type="object" class="btn-primary"-->
+                <!--                        string="Advance PI"-->
+                <!--                        attrs="{'invisible': ['|',('is_pi_done', '=', True),('state', 'in',['draft','sent', 'done','cancel'])]}"/>-->
+            </xpath>
+            <field name="payment_term_id" position="after">
+                <field name="rev_sale_id" invisible="1"/>
+                <field name="src_sale_id" invisible="1"/>
+                <field name="rev_count" invisible="1"/>
+                <field name="org_sale_id" invisible="1"/>
+                <field name="src_count" invisible="1"/>
+                <field name="confirm_seq" readonly="1" invisible="1"/>
+                <!--                <field name="is_pi_done" invisible="1"/>-->
+                <!--                <field name="pi_amount" invisible="1"/>-->
+                <!--                <field name="ti_amount" invisible="1"/>-->
+                <!--                <field name="last_ret_amount" invisible="1"/>-->
+
+            </field>
+            <xpath expr="//notebook/page[@name='other_information']" position="after">
+                <page name="sale_revisions" string="Sale Revisions"
+                      invisible="rev_count == 1 or rev_count == 0">
+                    <field name="rev_sale_ids"/>
+                </page>
+                <page name="sale_history" string="Sale History"
+                      invisible="src_count == 0 or rev_count > 1">
+                    <field name="src_sale_ids"/>
+                </page>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger text-center o_form_header" invisible="is_revised == False" role="status">
+                    <strong>Quotation is revised.
+                    </strong>
+
+                </div>
+            </xpath>
+            <!--            <field name="date_order" position="after">-->
+            <!--                <field name="reviewed_by" invisible="1"/>-->
+            <!--            </field>-->
+            <!--<xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']"
+                   position="before">
+                <field name="measurement_type"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='other_information']" position="inside">
+                <group>
+                    <group>
+                        <field name="adv_percent"/>
+                        <field name="ret_percent"/>
+                    </group>
+                </group>
+            </xpath>-->
+
+            <!--<xpath expr="//div[@name='button_box']" position="inside">
+                &lt;!&ndash;                <button type="object" name="action_view_sale_order" class="oe_stat_button" icon="fa-dollar"&ndash;&gt;
+                &lt;!&ndash;                        string="Sales Order"/>&ndash;&gt;
+                <button type="object" name="action_view_proforma" class="oe_stat_button" icon="fa-dollar"
+                        attrs="{'invisible': [('pi_amount', '=', 0)]}" string="PI">
+                    <field name="pi_amount" widget="statinfo" string="Proforma Invoices"/>
+                </button>
+                <button type="object" name="action_view_proforma_invoices" class="oe_stat_button" icon="fa-dollar"
+                        attrs="{'invisible': [('ti_amount', '=', 0)]}" string="TI">
+                    <field name="ti_amount" widget="statinfo" string="Invoices"/>
+                </button>
+
+            </xpath>-->
+            <!-- <xpath expr="//field[@name='name']" position="replace">
+                 <field name="name" readonly="1" attrs="{'invisible': [('state', 'in', ('sale', 'done','cancel'))]}"/>
+                 <field name="confirm_seq" readonly="1"
+                        attrs="{'invisible': [('state', 'in', ('draft','sent'))]}"/>
+             </xpath>-->
+        </field>
+    </record>
+
+    <!--<record id="sale_order_tree_custom_review_seq" model="ir.ui.view">
+        <field name="name">sale_order_tree_custom_review_seq</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='commitment_date']" position="replace">
+                <field name="confirm_seq"/>
+            </xpath>
+        </field>
+    </record>
+-->
+</odoo>
