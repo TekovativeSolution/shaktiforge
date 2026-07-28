@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_customerinfo_user,product.customerinfo_user,model_product_customerinfo,sales_team.group_sale_salesman,1,1,0,0
+access_product_customerinfo_manager,product.customerinfo_manager,model_product_customerinfo,sales_team.group_sale_manager,1,1,1,1
+access_product_code_user,product.code.user,model_product_code,sales_team.group_sale_salesman,1,1,1,0
+access_product_code_manager,product.code.manager,model_product_code,sales_team.group_sale_manager,1,1,1,1
+access_product_name_user,product.name.user,model_product_name,sales_team.group_sale_salesman,1,1,1,0
+access_product_name_manager,product.name.manager,model_product_name,sales_team.group_sale_manager,1,1,1,1
