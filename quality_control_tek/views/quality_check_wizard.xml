@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="quality_check_wizard_inherit_form_view" model="ir.ui.view">
+        <field name="name">quality.check.wizard.inherit.form.view</field>
+        <field name="model">quality.check.wizard</field>
+        <field name="inherit_id" ref="quality_control.quality_check_wizard_form_failure"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='failure_location_id']" position="replace">
+                 <field name="failure_location_id" invisible="not potential_failure_location_ids" required="measure_on == 'move_line'" domain="[('id', 'in', potential_failure_location_ids)]"/>
+            </xpath>
+
+        </field>
+     </record>
+
+
+
+<!--     <record id="quality_check_wizard_form_view_inherited" model="ir.ui.view">-->
+<!--        <field name="name">quality.check.wizard.form.view.inherited</field>-->
+<!--        <field name="model">quality.check.wizard</field>-->
+<!--        <field name="inherit_id" ref="quality_control.view_quality_check_wizard"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--             <xpath expr="//field[@name='additional_note']" position="before">-->
+<!--                <field name="correct_measure" invisible="test_type != 'measure'" />-->
+
+<!--            </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+</odoo>

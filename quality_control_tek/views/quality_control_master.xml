@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="quality_control_master_tree" model="ir.ui.view">
+        <field name="name">quality.control.master.tree.view</field>
+        <field name="model">quality.control.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="title"/>
+                <field name="product_ids" widget="many2many_tags"/>
+                <field name="picking_type_ids" widget="many2many_tags"/>
+                <field name="measure_on"/>
+                <field name="team_id"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="quality_control_master_form" model="ir.ui.view">
+        <field name="name">quality.control.master.form.view</field>
+        <field name="model">quality.control.master</field>
+        <field name="arch" type="xml">
+            <form string="Quality Control Mater">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done" nolabel="1" readonly="1"/>
+                    <button name="create_quality_point" string="Create Quality Point" type="object" class="oe_inline"
+                            invisible="state in ['done','cancel']"/>
+                    <button name="cancel_qc_master" string="Cancel" type="object" class="oe_inline"
+                            invisible="state == 'cancel'"/>
+                    <button name="reset_to_draft" string="Reset to Draft" type="object" class="oe_inline"
+                            invisible="state != 'cancel'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_see_quality_points" type="object" icon="fa-check" class="oe_stat_button">
+                            <field string="Quality Points" name="qc_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <h2>
+                        <field name="name" readonly="1"/>
+                    </h2>
+                    <group>
+                        <group>
+
+                            <field name="title" readonly="state != 'draft'"/>
+                            <field name="product_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                            <field name="product_category_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                            <field name="picking_type_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                            <field name="company_id" readonly="state != 'draft'"/>
+                            <field name="user_id" readonly="state != 'draft'"/>
+
+                        </group>
+
+
+                        <group>
+                            <field name="measure_on" readonly="state != 'draft'"/>
+                            <field name="team_id" required="1" readonly="state != 'draft'"/>
+                            <field name="measure_frequency_type" string="Control Frequency" readonly="state != 'draft'"/>
+                            <label for="measure_frequency_value" string="" invisible="measure_frequency_type == 'all'" readonly="state != 'draft'"/>
+                            <div class="o_row" invisible="measure_frequency_type == 'all'">
+                                <span invisible="measure_frequency_type == 'all'">Every</span>
+                                <field name="measure_frequency_value" nolabel="1"
+                                       invisible="measure_frequency_type != 'random'" readonly="state != 'draft'"/>
+                                <label for="measure_frequency_value" string="% of Operations"
+                                       invisible="measure_on == 'move_line' or measure_frequency_type != 'random'" />
+                                <label for="measure_frequency_value" string="% of Transfers"
+                                       invisible="measure_on != 'move_line' or measure_frequency_type != 'random'"/>
+                                <field name="measure_frequency_unit_value" string="Frequency" nolabel="1"
+                                       invisible="measure_frequency_type != 'periodical'" readonly="state != 'draft'"/>
+                                <field name="measure_frequency_unit" invisible="measure_frequency_type != 'periodical'"
+                                       required="measure_frequency_type == 'periodical'" readonly="state != 'draft'"/>
+                            </div>
+                            <label for="testing_percentage_within_lot" string="Partial Test"
+                                   invisible="measure_on != 'move_line'"/>
+                            <div class="o_row" invisible="measure_on != 'move_line'">
+                                <span>Test</span>
+                                <field name="testing_percentage_within_lot" nolabel="1" readonly="state != 'draft'"/>
+                                <span>% of products</span>
+                            </div>
+                            <field name="failure_location_ids" widget="many2many_tags"
+                                   invisible="measure_on != 'move_line'" readonly="state != 'draft'"/>
+                            <field name="picking_type_id"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page id="control_point" string="Control Points" name="control_point">
+                            <field name="quality_lines" readonly="state != 'draft'"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                 <div class="oe_chatter">
+                   <field name="message_follower_ids"/>
+                   <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quality_control_master" model="ir.actions.act_window">
+        <field name="name">Quality Control Master</field>
+        <field name="res_model">quality.control.master</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_quality_control_master"
+              name="Quality Control Master"
+              parent="quality_control.menu_quality_control"
+              action="action_quality_control_master"
+              sequence="1"
+              groups="quality.group_quality_user"
+    />
+
+
+
+</odoo>
