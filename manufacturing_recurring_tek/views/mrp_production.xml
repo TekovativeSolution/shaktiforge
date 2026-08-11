@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_form_view_inherited" model="ir.ui.view">
+        <field name="name">mrp.production.form.view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+              <xpath expr="//button[@name='button_unbuild']" position="after">
+                <button name="button_create_mo" type="object" invisible="state != 'confirmed'" string="Create Order" class="oe_highlight"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="master_mo_id"/>
+            </xpath>
+            <xpath expr="//button[@name='action_view_mrp_production_childs']" position="after">
+                <button class="oe_stat_button" name="action_view_child_mo" type="object" icon="fa-wrench" >
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value"><field name="mo_count"/></span>
+                                    <span class="o_stat_text">Child MO</span>
+                                </div>
+                            </button>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

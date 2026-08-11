@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="mrp_production_wizard_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.wizard.form.view</field>
+            <field name="model">mrp.production.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="mrp_id" />
+
+                        </group>
+                        </group>
+
+                        <field name="production_line" >
+
+                            <tree>
+                                <field name="production_wizard_id" column_invisible="True"/>
+                                <field name="product_id"/>
+                                <field name="available_qty"/>
+                                <field name="need_qty"/>
+
+                            </tree>
+                        </field>
+                    </sheet>
+                    <footer>
+<!--                        <button name="create_indent" string="Create Indent" type="object" class="btn-primary"/>-->
+                        <button name="create_mo" string="Create Order"  type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+</odoo>

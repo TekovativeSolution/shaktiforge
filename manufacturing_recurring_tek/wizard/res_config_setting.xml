@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="mrp_production_res_config_inherit_view" model="ir.ui.view">
+            <field name="name">mrp.production.res.config</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="mrp.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//block[@name='process_operations_setting_container']" position="inside">
+                     <setting help="Select Quantity that you want to generate while creating order from mo." id="child_mo_qty_id">
+                                <field name="child_mo_qty"/>
+                            </setting>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
