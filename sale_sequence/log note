@@ -1,0 +1,4 @@
+11-08-2026 ----- Karan Sumara
+Added sequence_name and operation_type based on that generate sequence
+Added operation_type_select_in_sale_order module in depends that show delivery_picking_type_id field in sale order
+Added _onchange_sale_sequence_operation_type method that pass opertion type in delivery_picking_type_id field

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="student_sale_sequence_form_view" model="ir.ui.view">
+        <field name="name">sale.sequence.form.view</field>
+        <field name="model">sale.sequence</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="sequence_name"/>
+                            <field name="operation_type" domain="[('code','=','outgoing')]"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'always'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_sequence_tree_view" model="ir.ui.view">
+        <field name="name">sale.sequence.tree.view</field>
+        <field name="model">sale.sequence</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="sequence_name"/>
+                <field name="operation_type" domain="[('code','=','outgoing')]"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_order_form_sequence" model="ir.ui.view">
+        <field name="name">sale.order.form.sequence</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="sale_sequence"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="hide_sale_order_sequence_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree.hide.sequence</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="sale_sequence_action" model="ir.actions.act_window">
+        <field name="name">Sale Sequence</field>
+        <field name="res_model">sale.sequence</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+
+    <menuitem id="sale_sequence_menu"
+              parent="sale.menu_sale_config"
+              name="Sale Sequence"
+              action="sale_sequence_action"
+
+    />
+
+</odoo>

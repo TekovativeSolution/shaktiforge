@@ -1,0 +1,13 @@
+<odoo>
+
+    <record id="mrp_production_view_bulk_child_mo_create_tree_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.child.mo.tree</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/header" position="inside">
+                <button name="action_create_child_mo_multi" type="object" string="Create Child MO" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

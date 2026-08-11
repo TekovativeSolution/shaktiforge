@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_child_mo_lines_user,child.mo.lines,model_child_mo_lines,base.group_user,1,1,1,1
+access_parent_mo_lines_user,parent.mo.lines,model_parent_mo_lines,base.group_user,1,1,1,1

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_view_tree_inherit_child_merge" model="ir.ui.view">
+        <field name="name">mrp.production.tree</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="picking_type_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_production_child_merge_mo_form_view_inherited" model="ir.ui.view">
+        <field name="name">mrp.production.form.view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+              <xpath expr="//sheet/group/group/div/field[@name='product_qty']" position="replace">
+                    <field name="product_qty" class="oe_inline text-start" invisible="state not in ('draft', 'done')" readonly="state not in ('draft', 'confirmed')"/>
+              </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="is_child_mo"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Parent MO Details" invisible="not is_child_mo">
+                    <field name="child_mo_lines">
+                        <tree editable="bottom">
+                            <field name="child_mo_line_id" column_invisible="1"/>
+                            <field name="parent_mo_id"/>
+                            <field name="qty"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Child MO Details" invisible="is_child_mo">
+                    <field name="parent_mo_lines">
+                        <tree editable="bottom">
+                            <field name="parent_mo_line_id" column_invisible="1"/>
+                            <field name="child_mo_id"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
