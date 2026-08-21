@@ -5,7 +5,8 @@
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="order_id" readonly="1"/>
+                <field name="order_id" readonly="1" column_invisible="0"/>
+                <field name="client_order_ref" readonly="1"/>
                 <field name="date_order" readonly="1"/>
                 <field name="partner_id" readonly="1"/>
                 <field name="product_id" readonly="1"/>

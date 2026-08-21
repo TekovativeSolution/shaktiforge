@@ -27,6 +27,12 @@ class SaleOrderLine(models.Model):
         related='order_id.date_order',
         string='Order Date'
     )
+    client_order_ref = fields.Char(
+        string="Customer Reference",
+        related="order_id.client_order_ref",
+        store=True,
+        readonly=True,
+    )
 
     to_order = fields.Float(
         string="To Order",
