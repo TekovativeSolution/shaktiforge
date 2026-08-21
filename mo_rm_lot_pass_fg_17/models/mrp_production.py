@@ -1,10 +1,25 @@
 from odoo import fields, models, _, api
 from odoo.exceptions import UserError
 from collections import defaultdict
+from odoo.exceptions import ValidationError
 
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
+
+    is_lot_assigned = fields.Boolean(string="Is Lot Assigned?", copy=False)
+
+    def button_mark_done(self):
+        for production in self:
+            if production.state in ("confirmed", "progress", "to_close"):
+                if not production.lot_producing_id:
+                    raise UserError(_(
+                        "Lot No. is not assigned for Manufacturing Order %s.\n\n"
+                        "Please click 'Assign Lot No.' first, "
+                        "then click 'Produce All'."
+                    ) % production.name)
+
+        return super().button_mark_done()
 
     def action_assign_lot_no(self):
         self.ensure_one()
@@ -32,9 +47,9 @@ class MrpProduction(models.Model):
                     "Please use only one component and one lot.\n\n"
                     "Found Lots:\n%s"
                 ) % (
-                                    self.product_id.display_name,
-                                    "\n".join(lot_names)
-                                ))
+                    self.product_id.display_name,
+                    "\n".join(lot_names)
+                ))
 
             fg_lot_name = lot_names[0]
 
@@ -57,6 +72,7 @@ class MrpProduction(models.Model):
 
         # Assign Finished Lot to MO
         self.lot_producing_id = fg_lot.id
+        self.is_lot_assigned = True
 
         # Make sure all component move lines have their original lots
         for ml in raw_move_lines:

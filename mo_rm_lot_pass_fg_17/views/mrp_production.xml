@@ -6,7 +6,16 @@
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
               <xpath expr="//button[@name='button_unbuild']" position="after">
-                <button name="action_assign_lot_no" type="object" invisible="state != 'confirmed'" string="Assign Lot No." class="oe_highlight"/>
+                <button name="action_assign_lot_no" type="object" invisible="state in ('draft', 'done', 'cancel')" string="Assign Lot No." class="oe_highlight"/>
+            </xpath>
+            <xpath expr="//field[@name='lot_producing_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="is_lot_assigned" invisible="1"/>
+            </xpath>
+            <xpath expr="//sheet/group/group/div/button[@name='action_generate_serial']" position="replace">
+                <button name="action_generate_serial" type="object" class="btn btn-primary fa fa-plus-square-o" aria-label="Creates a new serial/lot number" title="Creates a new serial/lot number" role="img" invisible="True"/>
             </xpath>
         </field>
     </record>

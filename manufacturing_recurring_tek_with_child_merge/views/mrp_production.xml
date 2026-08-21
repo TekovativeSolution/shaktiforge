@@ -20,7 +20,10 @@
                     <field name="product_qty" class="oe_inline text-start" invisible="state not in ('draft', 'done')" readonly="state not in ('draft', 'confirmed')"/>
               </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
-                <field name="is_child_mo"/>
+                <field name="is_child_mo" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_view_child_mo']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Parent MO Details" invisible="not is_child_mo">
