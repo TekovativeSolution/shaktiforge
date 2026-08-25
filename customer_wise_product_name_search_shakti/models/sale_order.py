@@ -138,7 +138,7 @@ class SaleOrderLine(models.Model):
                     'product_id': customer_info.product_id.id,
                     'product_name_id': customer_info.product_name_id.id if customer_info.product_name_id else False,
                     'product_code_id': customer_info.product_code_id.id if customer_info.product_code_id else False,
-                    'price_unit': customer_info.price or 0.0,
+                    # 'price_unit': customer_info.price or 0.0,
                 })
 
                 desc = ""
@@ -171,7 +171,7 @@ class SaleOrderLine(models.Model):
                 line.write({
                     'product_name_id': customer_info.product_name_id.id if customer_info.product_name_id else False,
                     'product_code_id': customer_info.product_code_id.id if customer_info.product_code_id else False,
-                    'price_unit': customer_info.price or 0.0,
+                    # 'price_unit': customer_info.price or 0.0,
                     'name': desc,
                 })
 
