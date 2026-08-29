@@ -110,55 +110,25 @@ class SaleOrderLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
+        lines = super().create(vals_list)
 
-            if vals.get('product_id'):
-                continue
+        for line in lines:
+            if line.name:
+                continue  # already has a description, don't overwrite
 
-            partner_id = False
-            if vals.get('order_id'):
-                order = self.env['sale.order'].browse(vals['order_id'])
-                partner_id = order.partner_id.id
-
+            partner_id = line.order_id.partner_id.id
             if not partner_id:
                 continue
 
             domain = [('partner_id', '=', partner_id)]
-
-            if vals.get('product_name_id'):
-                domain.append(('product_name_id', '=', vals['product_name_id']))
-
-            if vals.get('product_code_id'):
-                domain.append(('product_code_id', '=', vals['product_code_id']))
+            if line.product_code_id:
+                domain.append(('product_code_id', '=', line.product_code_id.id))
+            elif line.product_name_id:
+                domain.append(('product_name_id', '=', line.product_name_id.id))
+            else:
+                continue
 
             customer_info = self.env['product.customerinfo'].search(domain, limit=1)
-
-            if customer_info:
-                vals.update({
-                    'product_id': customer_info.product_id.id,
-                    'product_name_id': customer_info.product_name_id.id if customer_info.product_name_id else False,
-                    'product_code_id': customer_info.product_code_id.id if customer_info.product_code_id else False,
-                    # 'price_unit': customer_info.price or 0.0,
-                })
-
-                desc = ""
-                if customer_info.product_code_id:
-                    desc += "[%s] " % customer_info.product_code_id.product_code
-                if customer_info.product_name_id:
-                    desc += customer_info.product_name_id.product_name
-                if customer_info.description:
-                    desc += "\n" + customer_info.description
-
-                vals['name'] = desc
-
-        lines = super().create(vals_list)
-
-        for line in lines:
-            customer_info = self.env['product.customerinfo'].search([
-                ('partner_id', '=', line.order_partner_id.id),
-                ('product_id', '=', line.product_id.id),
-            ], limit=1)
-
             if customer_info:
                 desc = ""
                 if customer_info.product_code_id:
@@ -169,13 +139,88 @@ class SaleOrderLine(models.Model):
                     desc += "\n" + customer_info.description
 
                 line.write({
+                    'product_id': customer_info.product_id.id,
                     'product_name_id': customer_info.product_name_id.id if customer_info.product_name_id else False,
                     'product_code_id': customer_info.product_code_id.id if customer_info.product_code_id else False,
-                    # 'price_unit': customer_info.price or 0.0,
-                    'name': desc,
+                    'name': desc.strip() or line.product_id.display_name or '/',
                 })
+            else:
+                # fallback so required field is never left blank
+                line.name = (
+                        line.product_id.display_name
+                        or (line.product_code_id.display_name if line.product_code_id else False)
+                        or '/'
+                )
 
         return lines
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     for vals in vals_list:
+    #
+    #         if vals.get('product_id'):
+    #             continue
+    #
+    #         partner_id = False
+    #         if vals.get('order_id'):
+    #             order = self.env['sale.order'].browse(vals['order_id'])
+    #             partner_id = order.partner_id.id
+    #
+    #         if not partner_id:
+    #             continue
+    #
+    #         domain = [('partner_id', '=', partner_id)]
+    #
+    #         if vals.get('product_name_id'):
+    #             domain.append(('product_name_id', '=', vals['product_name_id']))
+    #
+    #         if vals.get('product_code_id'):
+    #             domain.append(('product_code_id', '=', vals['product_code_id']))
+    #
+    #         customer_info = self.env['product.customerinfo'].search(domain, limit=1)
+    #
+    #         if customer_info:
+    #             vals.update({
+    #                 'product_id': customer_info.product_id.id,
+    #                 'product_name_id': customer_info.product_name_id.id if customer_info.product_name_id else False,
+    #                 'product_code_id': customer_info.product_code_id.id if customer_info.product_code_id else False,
+    #                 # 'price_unit': customer_info.price or 0.0,
+    #             })
+    #
+    #             desc = ""
+    #             if customer_info.product_code_id:
+    #                 desc += "[%s] " % customer_info.product_code_id.product_code
+    #             if customer_info.product_name_id:
+    #                 desc += customer_info.product_name_id.product_name
+    #             if customer_info.description:
+    #                 desc += "\n" + customer_info.description
+    #
+    #             vals['name'] = desc
+    #
+    #     lines = super().create(vals_list)
+    #
+    #     for line in lines:
+    #         customer_info = self.env['product.customerinfo'].search([
+    #             ('partner_id', '=', line.order_partner_id.id),
+    #             ('product_id', '=', line.product_id.id),
+    #         ], limit=1)
+    #
+    #         if customer_info:
+    #             desc = ""
+    #             if customer_info.product_code_id:
+    #                 desc += "[%s] " % customer_info.product_code_id.product_code
+    #             if customer_info.product_name_id:
+    #                 desc += customer_info.product_name_id.product_name
+    #             if customer_info.description:
+    #                 desc += "\n" + customer_info.description
+    #
+    #             line.write({
+    #                 'product_name_id': customer_info.product_name_id.id if customer_info.product_name_id else False,
+    #                 'product_code_id': customer_info.product_code_id.id if customer_info.product_code_id else False,
+    #                 # 'price_unit': customer_info.price or 0.0,
+    #                 'name': desc,
+    #             })
+    #
+    #     return lines
 
     def _get_display_price(self):
         """Compute the displayed unit price for a given line.
