@@ -11,8 +11,13 @@ class MrpProduction(models.Model):
     parent_mo_lines = fields.One2many("parent.mo.lines", "parent_mo_line_id", string="Parent MO Lines")
 
     def create_child_mo_for_required_qty_bomwise(self):
-        """Create child MOs only for components where stock is insufficient,
-        with consolidated quantities.
+        """Create child MOs only for components where quantity is insufficient.
+
+        Shortage quantity:
+            shortage_qty = product_uom_qty - quantity
+
+        Both product_uom_qty and quantity are taken from the
+        parent MO raw material/component moves.
         """
         created_mos = []
 
@@ -25,27 +30,40 @@ class MrpProduction(models.Model):
         if not consolidated_requirements:
             raise UserError(
                 _("No Manufacturing Orders were created. "
-                  "All components have sufficient stock.")
+                  "No component requirements were found.")
             )
 
-        # Create MOs based on consolidated requirements and stock availability
         for product_id, requirement_data in consolidated_requirements.items():
 
             product = self.env['product.product'].browse(product_id)
-            total_required_qty = requirement_data['total_qty']
             component_bom = requirement_data['bom']
 
-            # Check available quantity
-            available_qty = product.qty_available
+            # Get all raw material/component moves for this product
+            component_moves = self.move_raw_ids.filtered(
+                lambda move: move.product_id.id == product_id
+            )
 
-            # Only create MO if stock is insufficient
-            if available_qty >= total_required_qty:
+            if not component_moves:
                 continue
 
-            # Create MO only for shortage quantity
-            shortage_qty = total_required_qty - available_qty
+            # To Consume quantity
+            product_uom_qty = sum(
+                component_moves.mapped('product_uom_qty')
+            )
 
-            # Search only Draft child MO having same product & BOM
+            # Quantity already available/processed on component line
+            quantity = sum(
+                component_moves.mapped('quantity')
+            )
+
+            # Shortage quantity
+            shortage_qty = product_uom_qty - quantity
+
+            # No shortage
+            if shortage_qty <= 0:
+                continue
+
+            # Search existing Draft child MO having same product & BOM
             existing_child_mo = self.env['mrp.production'].search([
                 ('product_id', '=', product.id),
                 ('bom_id', '=', component_bom.id),
@@ -72,6 +90,7 @@ class MrpProduction(models.Model):
                 )
 
                 created_mos.append(existing_child_mo)
+
             else:
 
                 mo_vals = {
@@ -111,8 +130,112 @@ class MrpProduction(models.Model):
 
         raise UserError(
             _("No Manufacturing Orders were created. "
-              "All components have sufficient stock.")
+              "All components have sufficient quantity.")
         )
+
+    # def create_child_mo_for_required_qty_bomwise(self):
+    #     """Create child MOs only for components where stock is insufficient,
+    #     with consolidated quantities.
+    #     """
+    #     created_mos = []
+    #
+    #     # Get consolidated requirements for all components
+    #     consolidated_requirements = self._get_consolidated_requirements(
+    #         self.bom_id,
+    #         self.product_qty
+    #     )
+    #
+    #     if not consolidated_requirements:
+    #         raise UserError(
+    #             _("No Manufacturing Orders were created. "
+    #               "All components have sufficient stock.")
+    #         )
+    #
+    #     # Create MOs based on consolidated requirements and stock availability
+    #     for product_id, requirement_data in consolidated_requirements.items():
+    #
+    #         product = self.env['product.product'].browse(product_id)
+    #         total_required_qty = requirement_data['total_qty']
+    #         component_bom = requirement_data['bom']
+    #
+    #         # Check available quantity
+    #         available_qty = product.qty_available
+    #
+    #         # Only create MO if stock is insufficient
+    #         if available_qty >= total_required_qty:
+    #             continue
+    #
+    #         # Create MO only for shortage quantity
+    #         shortage_qty = total_required_qty - available_qty
+    #
+    #         # Search only Draft child MO having same product & BOM
+    #         existing_child_mo = self.env['mrp.production'].search([
+    #             ('product_id', '=', product.id),
+    #             ('bom_id', '=', component_bom.id),
+    #             ('state', '=', 'draft'),
+    #             ('is_child_mo', '=', True),
+    #         ], limit=1)
+    #
+    #         if existing_child_mo:
+    #
+    #             # Increase existing Child MO quantity
+    #             existing_child_mo.product_qty += shortage_qty
+    #
+    #             # Create / update Child MO Lines
+    #             self._create_or_update_child_mo_line(
+    #                 child_mo=existing_child_mo,
+    #                 parent_mo=self,
+    #                 qty=shortage_qty,
+    #             )
+    #
+    #             # Create Parent MO Line if it does not already exist
+    #             self._create_parent_mo_line(
+    #                 parent_mo=self,
+    #                 child_mo=existing_child_mo,
+    #             )
+    #
+    #             created_mos.append(existing_child_mo)
+    #         else:
+    #
+    #             mo_vals = {
+    #                 'product_id': product.id,
+    #                 'product_qty': shortage_qty,
+    #                 'bom_id': component_bom.id,
+    #                 'master_mo_id': self.id,
+    #                 'is_child_mo': True,
+    #                 'origin': f"{self.name} - {product.name}",
+    #                 'picking_type_id': (
+    #                     component_bom.picking_type_id.id
+    #                     if component_bom.picking_type_id
+    #                     else self.picking_type_id.id
+    #                 ),
+    #             }
+    #
+    #             # Create new Child MO
+    #             new_mo = self.env['mrp.production'].create(mo_vals)
+    #
+    #             # Create Child MO Line
+    #             self._create_or_update_child_mo_line(
+    #                 child_mo=new_mo,
+    #                 parent_mo=self,
+    #                 qty=shortage_qty,
+    #             )
+    #
+    #             # Create Parent MO Line
+    #             self._create_parent_mo_line(
+    #                 parent_mo=self,
+    #                 child_mo=new_mo,
+    #             )
+    #
+    #             created_mos.append(new_mo)
+    #
+    #     if created_mos:
+    #         return self._show_created_mos(created_mos)
+    #
+    #     raise UserError(
+    #         _("No Manufacturing Orders were created. "
+    #           "All components have sufficient stock.")
+    #     )
 
     def _create_or_update_child_mo_line(self, child_mo, parent_mo, qty):
         """Create or update Child MO Line."""
