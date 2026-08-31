@@ -1,5 +1,15 @@
 from odoo import api, fields, models, _
 
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    def action_import_sale_order_line(self):
+        action = self.env.ref('customer_wise_product_name_search_shakti.sale_order_line_shakti_import_action').read()[0]
+        action['domain'] = [('order_id', '=', self.id)]
+        action['views'] = [(self.env.ref('customer_wise_product_name_search_shakti.sale_order_line_import_shakti_view_tree').id, 'tree'), ]
+        return action
+
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
@@ -107,6 +117,7 @@ class SaleOrderLine(models.Model):
                     domain.append(('id', 'in', customer_info_id.mapped('product_tmpl_id').ids))
 
                 record.product_domain = str(domain)
+
 
     @api.model_create_multi
     def create(self, vals_list):
