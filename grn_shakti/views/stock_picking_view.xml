@@ -1,0 +1,27 @@
+<odoo>
+
+    <record id="view_picking_form_inherit_mill_tc" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.mill.tc</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="qc_status_locked" invisible="1"/>
+                <field name="qc_status" invisible="picking_type_code != 'incoming'" readonly="qc_status_locked"/>
+                <field name="mill_tc_no" invisible="picking_type_code != 'incoming'"/>
+                <field name="heat_no" invisible="picking_type_code != 'incoming'"/>
+                <field name="mill_ts_wt" invisible="picking_type_code != 'incoming'"/>
+                <field name="no_of_recieved" invisible="picking_type_code != 'incoming'"/>
+            </xpath>
+
+             <xpath expr="//field[@name='origin']" position="after">
+                <field name="lab_chemical_testing_tc_no" invisible="picking_type_code != 'incoming'"/>
+                <field name="reciept_of_material_verified_by" invisible="picking_type_code != 'incoming'"/>
+                <field name="grn_verified_and_approved_by" invisible="picking_type_code != 'incoming'"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

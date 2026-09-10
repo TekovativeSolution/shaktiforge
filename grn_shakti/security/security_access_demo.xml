@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_qc_status" model="ir.module.category">
+            <field name="name">QC Status</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="group_qc_status_user" model="res.groups">
+            <field name="name">Transfer User</field>
+            <field name="category_id" ref="grn_shakti.module_category_qc_status"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">the user only show transfer to QC state receipt.</field>
+        </record>
+    </data>
+</odoo>

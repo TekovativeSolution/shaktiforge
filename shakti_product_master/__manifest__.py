@@ -3,7 +3,7 @@
     'version': '17.0.1.0.0',
     'category': 'Inventory/Products',
     'summary': 'Product master fields with auto name/code generation via category sequence',
-    'author': 'Hetvi Jesadiya',
+    'author': 'Hetvi Jesadiya,Karan Sumara',
     'website': 'http://www.teknovativesolution.com/',
     'depends': ['base','product','sale','sale_management'],
     'data': [

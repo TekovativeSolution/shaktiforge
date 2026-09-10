@@ -7,6 +7,9 @@
             <tree string="Material Grade" editable="bottom">
                 <field name="name"/>
                 <field name="code"/>
+                <field name="product_prefix"/>
+                <field name="product_sequence_size"/>
+                <field name="product_next_number"/>
             </tree>
         </field>
     </record>
@@ -20,6 +23,9 @@
                     <group>
                         <field name="name"/>
                         <field name="code"/>
+                        <field name="product_prefix"/>
+                        <field name="product_sequence_size"/>
+                        <field name="product_next_number"/>
                     </group>
                 </sheet>
             </form>
@@ -33,8 +39,8 @@
     </record>
 
     <menuitem id="menu_shakti_material_grade"
-        name="Material Grade"
-        parent="sale.menu_sale_config"
-        action="action_shakti_material_grade"
-        sequence="69"/>
+              name="Material Grade"
+              parent="sale.menu_sale_config"
+              action="action_shakti_material_grade"
+              sequence="69"/>
 </odoo>

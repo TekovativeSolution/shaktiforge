@@ -71,6 +71,9 @@ class MaterialGrade(models.Model):
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', required=True)
+    product_prefix = fields.Char('Prefix')
+    product_sequence_size = fields.Integer('Sequence Size')
+    product_next_number = fields.Integer('Next No.')
 
 
 class DieCode(models.Model):
