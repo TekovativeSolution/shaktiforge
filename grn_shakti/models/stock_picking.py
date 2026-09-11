@@ -65,3 +65,26 @@ class StockPicking(models.Model):
                 picking.qc_status = 'qc_done'
         return res
 
+# -------------------------------------------------------------------------
+# KANBAN VIEW (Inventory Overview) RESTRICTION FOR QC USER
+# -------------------------------------------------------------------------
+class StockPickingType(models.Model):
+    _inherit = 'stock.picking.type'
+    def _search(self, domain, *args, **kwargs):
+        if not self.env.su and self.env.user.has_group('grn_shakti.group_qc_status_user'):
+            domain = expression.AND([domain, [('code', '=', 'incoming')]])
+        return super()._search(domain, *args, **kwargs)
+    def _compute_picking_count(self):
+        super()._compute_picking_count()
+        if not self.env.su and self.env.user.has_group('grn_shakti.group_qc_status_user'):
+            for record in self:
+                qc_count = self.env['stock.picking'].search_count([
+                    ('picking_type_id', '=', record.id),
+                    ('qc_status', '=', 'transfer_to_qc'),
+                    ('state', 'not in', ('done', 'cancel')),
+                ])
+                record.count_picking_ready = qc_count
+                record.count_picking = qc_count
+                record.count_picking_waiting = 0
+                record.count_picking_late = 0
+                record.count_picking_backorders = 0
