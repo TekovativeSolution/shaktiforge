@@ -15,7 +15,7 @@
                 <field name="no_of_recieved" invisible="picking_type_code != 'incoming'"/>
             </xpath>
 
-             <xpath expr="//field[@name='origin']" position="after">
+            <xpath expr="//field[@name='origin']" position="after">
                 <field name="lab_chemical_testing_tc_no" invisible="picking_type_code != 'incoming'"/>
                 <field name="reciept_of_material_verified_by" invisible="picking_type_code != 'incoming'"/>
                 <field name="grn_verified_and_approved_by" invisible="picking_type_code != 'incoming'"/>
@@ -24,4 +24,25 @@
         </field>
     </record>
 
+    <record id="view_picking_internal_search_qc" model="ir.ui.view">
+        <field name="name">stock.picking.search.qc</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+                <filter name="transfer_to_qc"
+                        string="Transfer to QC"
+                        domain="[('qc_status', '=', 'transfer_to_qc')]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="stock.action_picking_tree_incoming" model="ir.actions.act_window">
+        <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0],
+            'restricted_picking_type_code': 'incoming', 'search_default_reception': 1, 'search_default_transfer_to_qc':
+            1 if is_qc_status_user else 0}
+        </field>
+    </record>
 </odoo>

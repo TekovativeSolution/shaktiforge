@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 from odoo.osv import expression
+from ast import literal_eval
 
 
 class StockPicking(models.Model):
@@ -53,7 +54,8 @@ class StockPicking(models.Model):
             if not has_id_leaf:
                 qc_domain = [
                     ('picking_type_id.code', '=', 'incoming'),
-                    ('qc_status', '=', 'transfer_to_qc'),
+                    ('qc_status', 'in', ['transfer_to_qc', 'qc_done']),
+                    # ('qc_status', '=', 'transfer_to_qc'),
                 ]
                 domain = expression.AND([domain, qc_domain])
         return super()._search(domain, *args, **kwargs)
@@ -74,17 +76,42 @@ class StockPickingType(models.Model):
         if not self.env.su and self.env.user.has_group('grn_shakti.group_qc_status_user'):
             domain = expression.AND([domain, [('code', '=', 'incoming')]])
         return super()._search(domain, *args, **kwargs)
+
     def _compute_picking_count(self):
         super()._compute_picking_count()
-        if not self.env.su and self.env.user.has_group('grn_shakti.group_qc_status_user'):
+
+        if not self.env.su and self.env.user.has_group(
+                'grn_shakti.group_qc_status_user'):
+
             for record in self:
                 qc_count = self.env['stock.picking'].search_count([
                     ('picking_type_id', '=', record.id),
-                    ('qc_status', '=', 'transfer_to_qc'),
-                    ('state', 'not in', ('done', 'cancel')),
+                    ('qc_status', 'in', ['transfer_to_qc', 'qc_done']),
+                    ('state', 'in', ['confirmed', 'waiting', 'assigned']),
                 ])
-                record.count_picking_ready = qc_count
+
                 record.count_picking = qc_count
-                record.count_picking_waiting = 0
-                record.count_picking_late = 0
-                record.count_picking_backorders = 0
+
+
+    # def _compute_picking_count(self):
+    #     super()._compute_picking_count()
+    #     if not self.env.su and self.env.user.has_group('grn_shakti.group_qc_status_user'):
+    #         for record in self:
+    #             qc_count = self.env['stock.picking'].search_count([
+    #                 ('picking_type_id', '=', record.id),
+    #                 ('qc_status', 'in', ['transfer_to_qc', 'qc_done']),
+    #                 ('state', 'not in', ('done', 'cancel')),
+    #             ])
+    #             record.count_picking_ready = qc_count
+    #             record.count_picking = qc_count
+    #             record.count_picking_waiting = 0
+    #             record.count_picking_late = 0
+    #             record.count_picking_backorders = 0
+
+class ResUsers(models.Model):
+    _inherit = 'res.users'
+
+    def context_get(self):
+        result = dict(super().context_get())
+        result['is_qc_status_user'] = self.has_group('grn_shakti.group_qc_status_user')
+        return result
