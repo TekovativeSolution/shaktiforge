@@ -25,6 +25,7 @@ Validate Receipt qc status field value change to qc done.
         "views/stock_lot_view.xml",
         "views/stock_move_view.xml",
         "views/stock_move_line_view.xml",
+        "views/product_category_view.xml",
     ],
     'installable': True,
     "application": True,
